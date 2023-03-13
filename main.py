@@ -66,6 +66,40 @@ async def pricehour():
                      str(y00tspriceformatted))
 
 
+
+@client.command()
+async def degodsS(ctx):
+  response = requests.get(
+    "https://api-mainnet.magiceden.dev/v2/collections/degods/activities?offset=0&limit=100"
+  )
+  response_json = response.json()
+  for obj in response_json:
+    if obj["type"] == "buyNow":
+      embed = discord.Embed(title="DeGods sold",
+                            description="has been sold for" + str(obj["price"]),
+                            color=0x4cf08b)
+      embed.add_field(name="From", value=obj["seller"], inline=True)
+      embed.add_field(name="From", value=obj["buyer"], inline=True)
+      embed.set_thumbnail(url=obj["image"])
+      await ctx.send(embed=embed)
+
+@client.command()
+async def y00tsS(ctx):
+  response = requests.get(
+    "https://api-mainnet.magiceden.dev/v2/collections/y00ts/activities?offset=0&limit=100"
+  )
+  response_json = response.json()
+  for obj in response_json:
+    if obj["type"] == "buyNow":
+      embed = discord.Embed(title="Y00t sold",
+                            description="has been sold for" + str(obj["price"]),
+                            color=0x4cf08b)
+      embed.add_field(name="From", value=obj["seller"], inline=True)
+      embed.add_field(name="From", value=obj["buyer"], inline=True)
+      embed.set_thumbnail(url=obj["image"])
+      await ctx.send(embed=embed)
+
+
 @client.command()
 async def ajuda(ctx):
   await ctx.send('Commands: $all,  $dust,  $degods,  $y00ts, $alert {value}')
